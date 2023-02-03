@@ -1,0 +1,42 @@
+<!--  наследуемся от шаблона default.html -->
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+{% load custom_tags %}
+
+
+{% block title %}
+Post
+{% endblock title %}
+
+
+{% block content %}
+  <h1><font color="red">Все новости</font></h1>
+   <h3><font color="orange">Количество статей/новостей:{{ news_content|length }}</font></h3>
+   <h3>Сегодня: {% current_time '%d %b %Y %A' %}</h3>
+    <hr>
+    {% if news_content %}
+       <table>
+           <tr>
+               <td>Название статьи или новости</td>
+               <td>Категория</td>
+               <td>Автор</td>
+               <td>Текст статьи или новости</td>
+               <td>Дата публикации</td>
+                <td>Рейтинг</td>
+           <tr>
+           {% for Post in news_content %}
+           <tr>
+               <td>{{ Post.title|censor }}</td>
+               <td>{{ Post.categoryType }}</td>
+               <td>{{ Post.author.authorUser }}</td>
+               <td>{{ Post.text|truncatechars:20 }}</td>
+               <td>{{ Post.dateCreation|date:'d M Y ' }}</td>
+                <td>{{ Post.rating }}</td>
+          <tr>
+           {% endfor %}
+       </table>
+
+    {% endif %}
+
+{% endblock content %}
